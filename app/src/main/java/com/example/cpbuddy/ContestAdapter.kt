@@ -32,7 +32,7 @@ class ContestAdapter(private val contests: List<Contest>) :
         holder.siteText.text = "Platform: ${contest.site}"
 
         holder.startTimeText.text = "Start time: ${formatStartTime(contest.startTime)}"
-        holder.durationText.text = "Duration: ${formatDuration(contest.duration)}"
+        holder.durationText.text = "Duration: ${formatDuration(contest.duration,contest.site)}"
     }
 
     private fun formatStartTime(timeInMillis: Long): String {
@@ -46,7 +46,10 @@ class ContestAdapter(private val contests: List<Contest>) :
         return sdf.format(date)
     }
 
-    private fun formatDuration(durationMillis: Long): String {
+    private fun formatDuration(durationMillis: Long,url: String): String {
+        if(url.equals("leetcode", ignoreCase = true)){
+            return "1h 30m"
+        }
         val totalSeconds = durationMillis / 1000
         val hours = totalSeconds / 3600
         val minutes = (totalSeconds % 3600) / 60
