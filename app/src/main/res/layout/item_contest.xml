@@ -23,6 +23,18 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tvStartTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start: 12:00 PM" />
+
+        <TextView
+            android:id="@+id/tvDuration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Duration: 2h 00m" />
+
+        <TextView
             android:id="@+id/tvContestSite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
