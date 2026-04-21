@@ -29,8 +29,9 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         val api = retrofit.create(CompeteApi::class.java)
+        //val api2 = retrofit.create(CodeforcesApi::class.java)
 
-// 2. Make the call
+        // 2. Make the call
         api.getUpcomingContests().enqueue(object : Callback<List<Contest>> {
             override fun onResponse(call: Call<List<Contest>>, response: Response<List<Contest>>) {
                 if (response.isSuccessful) {
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity, "Error: ${t.localizedMessage}", Toast.LENGTH_LONG).show()
             }
         })
+
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNav.selectedItemId = R.id.nav_contests // Highlight the current tab
 
