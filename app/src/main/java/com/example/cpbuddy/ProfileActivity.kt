@@ -3,8 +3,8 @@ package com.example.cpbuddy
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -31,7 +31,7 @@ class ProfileActivity : AppCompatActivity() {
             insets
         }
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigation)
-        bottomNav.selectedItemId = R.id.nav_contests // Highlight the current tab
+        bottomNav.selectedItemId = R.id.nav_profile // Highlight the current tab
 
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -46,7 +46,7 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
 
-        val searchButton: Button = findViewById<Button>(R.id.btnSearch)
+        val searchButton: ImageButton = findViewById<ImageButton>(R.id.btnSearch)
         val handle = findViewById<EditText>(R.id.etHandle)
         searchButton.setOnClickListener {
             val handle = handle.text.toString().trim()

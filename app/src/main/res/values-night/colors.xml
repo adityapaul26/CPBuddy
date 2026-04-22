@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Modern Palette (Dark) -->
+    <color name="primaryColor">#818CF8</color>
+    <color name="primaryVariant">#6366F1</color>
+    <color name="secondaryColor">#F472B6</color>
+    <color name="backgroundColor">#0F172A</color>
+    <color name="surfaceColor">#1E293B</color>
+    <color name="textPrimary">#F8FAFC</color>
+    <color name="textSecondary">#94A3B8</color>
+    <color name="accentColor">#34D399</color>
+    <color name="cardBackground">#1E293B</color>
+    <color name="dividerColor">#334155</color>
+    <color name="bottomNavBg">#1E293B</color>
+</resources>
