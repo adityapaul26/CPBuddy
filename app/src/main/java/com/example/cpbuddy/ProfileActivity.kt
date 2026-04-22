@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -14,6 +15,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import coil.load
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.card.MaterialCardView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,11 +49,15 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         val searchButton: ImageButton = findViewById<ImageButton>(R.id.btnSearch)
-        val handle = findViewById<EditText>(R.id.etHandle)
+        val handleEditText = findViewById<EditText>(R.id.etHandle)
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        val profileCard = findViewById<MaterialCardView>(R.id.profileCard)
+
         searchButton.setOnClickListener {
-            val handle = handle.text.toString().trim()
+            val handle = handleEditText.text.toString().trim()
             if (handle.isNotEmpty()) {
-                // Check: Is this function actually getting called?
+                progressBar.visibility = android.view.View.VISIBLE
+                profileCard.visibility = android.view.View.GONE
                 fetchUserData(handle)
             } else {
                 Toast.makeText(this, "Enter a handle!", Toast.LENGTH_SHORT).show()
@@ -69,22 +75,27 @@ class ProfileActivity : AppCompatActivity() {
 
         api.getUserInfo(handle).enqueue(object : Callback<List<User>> {
             override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
+                findViewById<ProgressBar>(R.id.progressBar).visibility = android.view.View.GONE
                 if (response.isSuccessful && !response.body().isNullOrEmpty()) {
 
                     val userProfile = response.body()!![0]// we only take the first element acc to the api
                     // mind you userProfile has a datatype of 'User'
 
                     bindUserToUI(userProfile)
+                } else {
+                    Toast.makeText(this@ProfileActivity, "User not found", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<List<User>>, t: Throwable) {
+                findViewById<ProgressBar>(R.id.progressBar).visibility = android.view.View.GONE
                 Toast.makeText(this@ProfileActivity, "Network Error", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
     private fun bindUserToUI(userProfile: User){
+        findViewById<MaterialCardView>(R.id.profileCard).visibility = android.view.View.VISIBLE
         val tvHandle = findViewById<TextView>(R.id.tvUserHandle)
         val ivAvatar = findViewById<ImageView>(R.id.ivAvatar)
         val tvRating = findViewById<TextView>(R.id.tvCurrentRating)

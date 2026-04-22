@@ -3,6 +3,7 @@ package com.example.cpbuddy
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
@@ -16,6 +17,7 @@ class ContestAdapter(private val contests: List<Contest>) :
         val siteText: TextView = view.findViewById(R.id.tvContestSite)
         val startTimeText: TextView = view.findViewById<TextView>(R.id.tvStartTime)
         val durationText: TextView = view.findViewById<TextView>(R.id.tvDuration)
+        val siteLogo: ImageView = view.findViewById(R.id.ivSiteLogo)
     }
 
     // 2. This creates the row layout
@@ -29,10 +31,19 @@ class ContestAdapter(private val contests: List<Contest>) :
     override fun onBindViewHolder(holder: ContestViewHolder, position: Int) {
         val contest = contests[position]
         holder.nameText.text = contest.title
-        holder.siteText.text = "Platform: ${contest.site}"
+        holder.siteText.text = contest.site
 
-        holder.startTimeText.text = "Start time: ${formatStartTime(contest.startTime)}"
-        holder.durationText.text = "Duration: ${formatDuration(contest.duration,contest.site)}"
+        holder.startTimeText.text = formatStartTime(contest.startTime)
+        holder.durationText.text = formatDuration(contest.duration, contest.site)
+
+        // Set site logo based on site name
+        val logoResId = when (contest.site.lowercase()) {
+            "codeforces" -> R.drawable.codeforces
+            "leetcode" -> R.drawable.leetcode
+            "codechef" -> R.drawable.codechef
+            else -> android.R.drawable.ic_menu_help // Default icon if site not recognized
+        }
+        holder.siteLogo.setImageResource(logoResId)
     }
 
     private fun formatStartTime(timeInMillis: Long): String {

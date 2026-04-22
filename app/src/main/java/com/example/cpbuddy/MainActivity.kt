@@ -2,6 +2,8 @@ package com.example.cpbuddy
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +22,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val recyclerView = findViewById<RecyclerView>(R.id.rvContests)
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+        // Show loading
+        progressBar.visibility = View.VISIBLE
 
         // 1. New Base URL
         val retrofit = Retrofit.Builder()
@@ -29,11 +35,11 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         val api = retrofit.create(CompeteApi::class.java)
-        //val api2 = retrofit.create(CodeforcesApi::class.java)
 
         // 2. Make the call
         api.getUpcomingContests().enqueue(object : Callback<List<Contest>> {
             override fun onResponse(call: Call<List<Contest>>, response: Response<List<Contest>>) {
+                progressBar.visibility = View.GONE
                 if (response.isSuccessful) {
                     val contestList = response.body() ?: emptyList()
                     // 3. Set the adapter
@@ -42,6 +48,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<List<Contest>>, t: Throwable) {
+                progressBar.visibility = View.GONE
                 Toast.makeText(this@MainActivity, "Error: ${t.localizedMessage}", Toast.LENGTH_LONG).show()
             }
         })
