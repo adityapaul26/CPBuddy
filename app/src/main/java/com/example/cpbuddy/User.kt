@@ -10,7 +10,7 @@ data class User(
     val handle: String,
     val maxRating: Int,
     val avatar: String,
-    val registrationTimeSeconds: String,
+    val registrationTimeSeconds: Long,
     val maxRank: String
 )
 

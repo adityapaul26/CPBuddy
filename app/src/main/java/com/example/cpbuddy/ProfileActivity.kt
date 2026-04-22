@@ -5,12 +5,14 @@ import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import coil.load
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
@@ -83,19 +85,30 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun bindUserToUI(userProfile: User){
+        val tvHandle = findViewById<TextView>(R.id.tvUserHandle)
+        val ivAvatar = findViewById<ImageView>(R.id.ivAvatar)
         val tvRating = findViewById<TextView>(R.id.tvCurrentRating)
         val tvRank = findViewById<TextView>(R.id.tvUserRank)
         val tvMaxRating = findViewById<TextView>(R.id.tvMaxRating)
+        val tvContribution = findViewById<TextView>(R.id.tvContribution)
+        val tvFriends = findViewById<TextView>(R.id.tvFriends)
+        val tvJoinedDate = findViewById<TextView>(R.id.tvJoinedDate)
 
         val rankColor = getRankColor(userProfile.rating)
+
+        tvHandle.text = userProfile.handle
+        ivAvatar.load(userProfile.avatar)
 
         tvRating.text = userProfile.rating?.toString() ?: "0"
         tvRating.setTextColor(rankColor)
 
         tvRank.text = userProfile.rank
+        tvRank.setTextColor(rankColor)
 
         tvMaxRating.text = userProfile.maxRating.toString()
-
+        tvContribution.text = userProfile.contribution.toString()
+        tvFriends.text = userProfile.friendOfCount.toString()
+        tvJoinedDate.text = "Joined: ${formatTimeStamps(userProfile.registrationTimeSeconds)}"
     }
 
     private fun formatTimeStamps(seconds: Long): String{
