@@ -2,6 +2,7 @@ package com.example.cpbuddy
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.card.MaterialCardView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,6 +22,8 @@ import java.util.Date
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
+
+    private var countDownTimer: CountDownTimer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +36,9 @@ class MainActivity : AppCompatActivity() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.rvContests)
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        val cvNextContest = findViewById<MaterialCardView>(R.id.cvNextContest)
+        val tvCountdown = findViewById<TextView>(R.id.tvCountdown)
+        
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         // Show loading
@@ -53,6 +60,16 @@ class MainActivity : AppCompatActivity() {
                     val contestList = response.body() ?: emptyList()
                     // 3. Set the adapter
                     recyclerView.adapter = ContestAdapter(contestList)
+
+                    // Find next contest for countdown
+                    val nextContest = contestList
+                        .filter { it.startTime > System.currentTimeMillis() }
+                        .minByOrNull { it.startTime }
+
+                    if (nextContest != null) {
+                        cvNextContest.visibility = View.VISIBLE
+                        startCountdown(nextContest.startTime, tvCountdown)
+                    }
                 }
             }
 
@@ -71,11 +88,37 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_profile -> {
                     startActivity(Intent(this, ProfileActivity::class.java))
                     overridePendingTransition(0, 0) // Removes the "jumpy" animation
-                    finish() // Optional: close current activity so the back button doesn't loop
+                    finish() 
                     true
                 }
                 else -> false
             }
         }
+    }
+
+    private fun startCountdown(startTime: Long, tvCountdown: TextView) {
+        countDownTimer?.cancel()
+        val remainingTime = startTime - System.currentTimeMillis()
+
+        if (remainingTime > 0) {
+            countDownTimer = object : CountDownTimer(remainingTime, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    val seconds = (millisUntilFinished / 1000) % 60
+                    val minutes = (millisUntilFinished / (1000 * 60)) % 60
+                    val hours = (millisUntilFinished / (1000 * 60 * 60))
+                    
+                    tvCountdown.text = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
+                }
+
+                override fun onFinish() {
+                    tvCountdown.text = "STARTED!"
+                }
+            }.start()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        countDownTimer?.cancel()
     }
 }
