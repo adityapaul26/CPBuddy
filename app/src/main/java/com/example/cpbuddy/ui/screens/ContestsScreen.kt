@@ -1,15 +1,18 @@
 package com.example.cpbuddy.ui.screens
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +28,7 @@ import java.util.*
 
 @Composable
 fun ContestsScreen(contests: List<Contest>) {
+    val context = LocalContext.current
     val nextContest = contests
         .filter { it.startTime > System.currentTimeMillis() }
         .minByOrNull { it.startTime }
@@ -70,7 +74,7 @@ fun ContestsScreen(contests: List<Contest>) {
                             modifier = Modifier.size(40.dp)
                         )
                         Spacer(modifier = Modifier.width(16.dp))
-                        Column {
+                        Column(modifier = Modifier.weight(1f)) {
                             Text(
                                 text = nextContest.title,
                                 style = MaterialTheme.typography.titleLarge,
@@ -82,6 +86,17 @@ fun ContestsScreen(contests: List<Contest>) {
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
+                        }
+                        
+                        Button(
+                            onClick = { openUrl(context, nextContest.url) },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                            ),
+                            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)
+                        ) {
+                            Text("Register", style = MaterialTheme.typography.labelLarge)
                         }
                     }
                     
@@ -122,6 +137,7 @@ fun ContestsScreen(contests: List<Contest>) {
 
 @Composable
 fun ContestItem(contest: Contest) {
+    val context = LocalContext.current
     GlassBox(
         modifier = Modifier.fillMaxWidth(),
         cornerRadius = 16.dp
@@ -146,22 +162,37 @@ fun ContestItem(contest: Contest) {
                     fontWeight = FontWeight.Medium,
                     maxLines = 1
                 )
-                Text(
-                    text = contest.site,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = contest.site,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    val sdfDateTime = SimpleDateFormat("MMM dd, HH:mm", Locale.getDefault())
+                    Text(
+                        text = "• ${sdfDateTime.format(Date(contest.startTime))}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.secondary,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
             
-            val sdfDateTime = SimpleDateFormat("MMM dd, HH:mm", Locale.getDefault())
-            Text(
-                text = sdfDateTime.format(Date(contest.startTime)),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.secondary,
-                fontWeight = FontWeight.Bold
-            )
+            IconButton(onClick = { openUrl(context, contest.url) }) {
+                Icon(
+                    painter = painterResource(id = android.R.drawable.ic_menu_send),
+                    contentDescription = "Go to Contest",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
         }
     }
+}
+
+private fun openUrl(context: Context, url: String) {
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    context.startActivity(intent)
 }
 
 private fun getSiteLogo(site: String): Int {
