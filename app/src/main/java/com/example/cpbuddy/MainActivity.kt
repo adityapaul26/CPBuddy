@@ -1,124 +1,125 @@
 package com.example.cpbuddy
 
-import android.content.Intent
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.view.View
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.card.MaterialCardView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.example.cpbuddy.ui.screens.ContestsScreen
+import com.example.cpbuddy.ui.screens.ProfileScreen
+import com.example.cpbuddy.ui.theme.CPBuddyTheme
 
-class MainActivity : AppCompatActivity() {
+sealed class Screen(val route: String, val label: String, val icon: ImageVector) {
+    object Contests : Screen("contests", "Contests", Icons.AutoMirrored.Filled.List)
+    object Profile : Screen("profile", "Profile", Icons.Default.Person)
+}
 
-    private var countDownTimer: CountDownTimer? = null
-
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        // Set today's date
-        val tvTodayDate = findViewById<TextView>(R.id.tvTodayDate)
-        val sdf = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
-        tvTodayDate.text = sdf.format(Date())
-
-        val recyclerView = findViewById<RecyclerView>(R.id.rvContests)
-        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
-        val cvNextContest = findViewById<MaterialCardView>(R.id.cvNextContest)
-        val tvCountdown = findViewById<TextView>(R.id.tvCountdown)
-        
-        recyclerView.layoutManager = LinearLayoutManager(this)
-
-        // Show loading
-        progressBar.visibility = View.VISIBLE
-
-        // 1. New Base URL
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://competeapi.vercel.app/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val api = retrofit.create(CompeteApi::class.java)
-
-        // 2. Make the call
-        api.getUpcomingContests().enqueue(object : Callback<List<Contest>> {
-            override fun onResponse(call: Call<List<Contest>>, response: Response<List<Contest>>) {
-                progressBar.visibility = View.GONE
-                if (response.isSuccessful) {
-                    val contestList = response.body() ?: emptyList()
-                    // 3. Set the adapter
-                    recyclerView.adapter = ContestAdapter(contestList)
-
-                    // Find next contest for countdown
-                    val nextContest = contestList
-                        .filter { it.startTime > System.currentTimeMillis() }
-                        .minByOrNull { it.startTime }
-
-                    if (nextContest != null) {
-                        cvNextContest.visibility = View.VISIBLE
-                        startCountdown(nextContest.startTime, tvCountdown)
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<List<Contest>>, t: Throwable) {
-                progressBar.visibility = View.GONE
-                Toast.makeText(this@MainActivity, "Error: ${t.localizedMessage}", Toast.LENGTH_LONG).show()
-            }
-        })
-
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigation)
-        bottomNav.selectedItemId = R.id.nav_contests // Highlight the current tab
-
-        bottomNav.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_contests -> true // Already here
-                R.id.nav_profile -> {
-                    startActivity(Intent(this, ProfileActivity::class.java))
-                    overridePendingTransition(0, 0) // Removes the "jumpy" animation
-                    finish() 
-                    true
-                }
-                else -> false
+        setContent {
+            CPBuddyTheme {
+                CPBuddyApp()
             }
         }
-    }
-
-    private fun startCountdown(startTime: Long, tvCountdown: TextView) {
-        countDownTimer?.cancel()
-        val remainingTime = startTime - System.currentTimeMillis()
-
-        if (remainingTime > 0) {
-            countDownTimer = object : CountDownTimer(remainingTime, 1000) {
-                override fun onTick(millisUntilFinished: Long) {
-                    val seconds = (millisUntilFinished / 1000) % 60
-                    val minutes = (millisUntilFinished / (1000 * 60)) % 60
-                    val hours = (millisUntilFinished / (1000 * 60 * 60))
-                    
-                    tvCountdown.text = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
-                }
-
-                override fun onFinish() {
-                    tvCountdown.text = "STARTED!"
-                }
-            }.start()
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        countDownTimer?.cancel()
     }
 }
+
+@Composable
+fun CPBuddyApp(viewModel: MainViewModel = viewModel()) {
+    val navController = rememberNavController()
+    val contestsState by viewModel.contestsState
+    val userProfileState by viewModel.userProfileState
+
+    Scaffold(
+        bottomBar = {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f),
+                contentColor = MaterialTheme.colorScheme.onSurface
+            ) {
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentDestination = navBackStackEntry?.destination
+                val items = listOf(Screen.Contests, Screen.Profile)
+
+                items.forEach { screen ->
+                    NavigationBarItem(
+                        icon = { Icon(screen.icon, contentDescription = null) },
+                        label = { Text(screen.label) },
+                        selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                        onClick = {
+                            navController.navigate(screen.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = MaterialTheme.colorScheme.primary,
+                            selectedTextColor = MaterialTheme.colorScheme.primary,
+                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            indicatorColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f)
+                        )
+                    )
+                }
+            }
+        }
+    )
+ { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = Screen.Contests.route,
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            composable(Screen.Contests.route) {
+                when (val state = contestsState) {
+                    is UiState.Loading -> LoadingScreen()
+                    is UiState.Success -> ContestsScreen(state.data)
+                    is UiState.Error -> ErrorScreen(state.message) { viewModel.fetchContests() }
+                }
+            }
+            composable(Screen.Profile.route) {
+                ProfileScreen(
+                    userState = userProfileState,
+                    onSearch = { handle -> viewModel.searchUser(handle) }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun LoadingScreen() {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+    }
+}
+
+@Composable
+fun ErrorScreen(message: String, onRetry: () -> Unit) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Button(onClick = onRetry) {
+            Text("Error: $message. Retry?")
+        }
+    }
+}
+
