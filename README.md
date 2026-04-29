@@ -70,5 +70,9 @@ CPBuddy uses a custom-built `GlassBox` component to achieve its signature look. 
 -   [ ] **Multi-Platform Support**: Add profiles for LeetCode and CodeChef.
 -   [ ] **Offline Mode**: Cache contest data using Room for offline viewing.
 
+## 🙏 Credits
+
+This app fetches its contest and user data from the excellent [CompeteAPI](https://github.com/ravibabuvadde/competeapi) by [ravibabuvadde](https://github.com/ravibabuvadde).
+
 ---
 *Developed with ❤️ for the CP Community.*
