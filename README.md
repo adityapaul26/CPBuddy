@@ -1,15 +1,25 @@
+<p align="center">
+  <img src="app/src/main/res/drawable/logo.png" width="120" alt="CPBuddy Logo">
+</p>
+
 # CPBuddy 🚀
 
 CPBuddy is a modern, high-performance Android application built for the competitive programming community. It helps developers and students track upcoming contests across major platforms and analyze Codeforces profiles with a beautiful "Glassmorphic" interface.
 
+## 📱 Visual Preview
+
+| Contests Screen | Profile Search |
+|:---:|:---:|
+| <img src="screenshots/Screenshot_20260429_130206_CPBuddy.jpg" width="300"> | <img src="screenshots/Screenshot_20260429_130222_CPBuddy.jpg" width="300"> |
+
 ## ✨ Features
 
--   **Contest Tracking**: Real-time updates for upcoming contests from **Codeforces**, **CodeChef**, and **LeetCode**.
--   **Next Contest Spotlight**: A dedicated "Featured" card for the very next contest with a live countdown timer.
--   **Direct Registration**: One-tap "Register" buttons that take you directly to the contest page.
--   **Profile Search**: Deep-dive into any Codeforces user's stats by searching their handle.
--   **Visual Analytics**: View user ratings, ranks (with color-coded indicators), contribution, and more.
--   **Immersive UI**: A signature "Glassmorphism" aesthetic with blurred backgrounds and sleek transitions.
+-   **🎯 Contest Tracking**: Real-time updates for upcoming contests from **Codeforces**, **CodeChef**, and **LeetCode**.
+-   **⏲️ Next Contest Spotlight**: A dedicated "Featured" card for the very next contest with a live countdown timer.
+-   **⚡ Direct Registration**: One-tap "Register" buttons that take you directly to the contest page.
+-   **🔍 Profile Search**: Deep-dive into any Codeforces user's stats by searching their handle.
+-   **📊 Visual Analytics**: View user ratings, ranks (with color-coded indicators), contribution, and more.
+-   **💎 Immersive UI**: A signature "Glassmorphism" aesthetic with blurred backgrounds and sleek transitions.
 
 ## 🛠 Tech Stack
 
@@ -25,17 +35,16 @@ CPBuddy is a modern, high-performance Android application built for the competit
 
 ```text
 com.example.cpbuddy/
-├── data/               # (Conceptual) Data models and API interfaces
-│   ├── Contest.kt      # Data model for platform contests
-│   ├── User.kt         # Data model for Codeforces user profiles
-│   ├── CodeforcesApi.kt# Retrofit interface for User data
-│   └── CompeteApi.kt   # Retrofit interface for Contest data
 ├── ui/                 # UI Layer
 │   ├── components/     # Reusable UI elements (GlassBox, ImmersiveBackground)
 │   ├── screens/        # Feature-specific screens (ContestsScreen, ProfileScreen)
 │   └── theme/          # Material 3 theme, colors, and typography
 ├── MainViewModel.kt    # Core business logic and state management
-└── MainActivity.kt     # Entry point and Navigation host
+├── MainActivity.kt     # Entry point and Navigation host
+├── Contest.kt          # Data model for platform contests
+├── User.kt             # Data model for Codeforces user profiles
+├── CodeforcesApi.kt    # Retrofit interface for User data
+└── CompeteApi.kt       # Retrofit interface for Contest data
 ```
 
 ## 🚀 Getting Started
@@ -69,6 +78,15 @@ CPBuddy uses a custom-built `GlassBox` component to achieve its signature look. 
 -   [ ] **Contest Reminders**: Add contests directly to your Google Calendar.
 -   [ ] **Multi-Platform Support**: Add profiles for LeetCode and CodeChef.
 -   [ ] **Offline Mode**: Cache contest data using Room for offline viewing.
+
+## 🤝 Contributing
+Contributions are welcome! Feel free to open an issue or submit a pull request.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 🙏 Credits
 
