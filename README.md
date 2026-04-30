@@ -1,86 +1,150 @@
-<p align="center">
-  <img src="app/src/main/res/drawable/logo.png" width="120" alt="CPBuddy Logo">
-</p>
+<div align="center">
 
-# CPBuddy 🚀
+  <img src="app/src/main/res/drawable/logo.png" width="160" height="160" alt="CPBuddy Logo" style="border-radius: 22%">
 
-CPBuddy is a modern, high-performance Android application built for the competitive programming community. It helps developers and students track upcoming contests across major platforms and analyze Codeforces profiles with a beautiful "Glassmorphic" interface.
+  <h1>CPBuddy</h1>
 
-## 📱 Visual Preview
+  <p align="center">
+    <strong>The ultimate companion for competitive programmers.</strong>
+    <br />
+    <em>Track contests, analyze profiles, and stay ahead of the curve with a stunning Glassmorphic interface.</em>
+  </p>
 
-| Contests Screen | Profile Search |
-|:---:|:---:|
-| <img src="screenshots/Screenshot_20260429_130206_CPBuddy.jpg" width="300"> | <img src="screenshots/Screenshot_20260429_130222_CPBuddy.jpg" width="300"> |
+  <p align="center">
+    <a href="#-features"><b>Features</b></a> •
+    <a href="#-showcase"><b>Showcase</b></a> •
+    <a href="#-tech-stack"><b>Tech Stack</b></a> •
+    <a href="#-getting-started"><b>Download</b></a> •
+    <a href="https://github.com/yourusername/CPBuddy/issues"><b>Support</b></a>
+  </p>
+
+  <div align="center">
+    <img src="https://img.shields.io/badge/Version-2.0.0-6366f1?style=for-the-badge&labelColor=1e1e2e" alt="Latest Version" />
+    <img src="https://img.shields.io/badge/Architecture-MVVM-6366f1?style=for-the-badge&labelColor=1e1e2e" alt="MVVM Architecture" />
+    <img src="https://img.shields.io/badge/Language-Kotlin-7f52ff?style=for-the-badge&logo=kotlin&color=6366f1&labelColor=1e1e2e" alt="Kotlin Language" />
+    <img src="https://img.shields.io/badge/Toolkit-Jetpack_Compose-4285f4?style=for-the-badge&logo=jetpack-compose&color=6366f1&labelColor=1e1e2e" alt="Jetpack Compose Toolkit" />
+    <img src="https://img.shields.io/badge/Design-Material_3-000000?style=for-the-badge&logo=material-design&color=6366f1&labelColor=1e1e2e" alt="Material Design 3" />
+  </div>
+  
+  <br />
+</div>
+
+<hr />
+
+**CPBuddy** isn’t just another contest tracker. It’s a precision tool designed for developers who live and breathe competitive programming. Built from the ground up with a focus on performance and aesthetics, it brings all your contest data into one beautiful, immersive experience.
+
+---
+
+## 📸 Showcase
+
+<div align="center">
+  <img src="screenshots/Screenshot_20260429_130206_CPBuddy.jpg" alt="Contests Screen" width="30%" />
+  <img src="screenshots/Screenshot_20260429_130222_CPBuddy.jpg" alt="Profile Search" width="30%" />
+</div>
+
+---
 
 ## ✨ Features
 
--   **🎯 Contest Tracking**: Real-time updates for upcoming contests from **Codeforces**, **CodeChef**, and **LeetCode**.
--   **⏲️ Next Contest Spotlight**: A dedicated "Featured" card for the very next contest with a live countdown timer.
--   **⚡ Direct Registration**: One-tap "Register" buttons that take you directly to the contest page.
--   **🔍 Profile Search**: Deep-dive into any Codeforces user's stats by searching their handle.
--   **📊 Visual Analytics**: View user ratings, ranks (with color-coded indicators), contribution, and more.
--   **💎 Immersive UI**: A signature "Glassmorphism" aesthetic with blurred backgrounds and sleek transitions.
+<div align="center">
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <div align="left">
+        <h3>🏆 Contest Tracking</h3>
+        <ul>
+          <li>Real-time updates from <b>Codeforces</b>, <b>CodeChef</b>, and <b>LeetCode</b>.</li>
+          <li>Featured "Next Contest" card with live countdown.</li>
+          <li>Direct registration links to keep you fast.</li>
+        </ul>
+      </div>
+    </td>
+    <td width="50%" valign="top">
+      <div align="left">
+        <h3>📊 Analytics</h3>
+        <ul>
+          <li>Deep-dive into <b>Codeforces</b> user stats.</li>
+          <li>Color-coded rank indicators and rating history.</li>
+          <li>Contribution tracking and user details at a glance.</li>
+        </ul>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <div align="left">
+        <h3>💎 Glassmorphism UI</h3>
+        <ul>
+          <li>Signature blurred backgrounds and sleek transitions.</li>
+          <li>Modern Material 3 components.</li>
+          <li>Immersive experience that feels "alive".</li>
+        </ul>
+      </div>
+    </td>
+    <td width="50%" valign="top">
+      <div align="left">
+        <h3>🚀 Performance</h3>
+        <ul>
+          <li>Built with Kotlin Coroutines for buttery smooth UI.</li>
+          <li>Efficient image loading with Coil.</li>
+          <li>Lightweight and optimized for modern Android.</li>
+        </ul>
+      </div>
+    </td>
+  </tr>
+</table>
+
+</div>
+
+---
 
 ## 🛠 Tech Stack
 
--   **UI Framework**: [Jetpack Compose](https://developer.android.com/jetpack/compose) - Modern declarative UI.
--   **Architecture**: MVVM (Model-View-ViewModel) for clean separation of concerns.
--   **Asynchronous Programming**: [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html) & Flow.
--   **Networking**: [Retrofit 2](https://square.github.io/retrofit/) with GSON converter for API integration.
--   **Image Loading**: [Coil](https://coil-kt.github.io/coil/) for fast, asynchronous image loading.
--   **Design System**: Material 3 (M3) with custom glassmorphism components.
--   **Navigation**: Jetpack Navigation Compose.
+<div align="center">
 
-## 🏗 Project Structure
+| Category | Tools & Libraries |
+| :--- | :--- |
+| **UI Framework** | [Jetpack Compose](https://developer.android.com/jetpack/compose) |
+| **Architecture** | MVVM with Clean Architecture principles |
+| **Networking** | [Retrofit 2](https://square.github.io/retrofit/) + GSON |
+| **Concurrency** | [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html) & Flow |
+| **Image Loading** | [Coil](https://coil-kt.github.io/coil/) |
+| **Navigation** | Jetpack Navigation Compose |
+| **Theming** | Material 3 (M3) with Custom Glass Components |
 
-```text
-com.example.cpbuddy/
-├── ui/                 # UI Layer
-│   ├── components/     # Reusable UI elements (GlassBox, ImmersiveBackground)
-│   ├── screens/        # Feature-specific screens (ContestsScreen, ProfileScreen)
-│   └── theme/          # Material 3 theme, colors, and typography
-├── MainViewModel.kt    # Core business logic and state management
-├── MainActivity.kt     # Entry point and Navigation host
-├── Contest.kt          # Data model for platform contests
-├── User.kt             # Data model for Codeforces user profiles
-├── CodeforcesApi.kt    # Retrofit interface for User data
-└── CompeteApi.kt       # Retrofit interface for Contest data
-```
+</div>
+
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
--   Android Studio (Ladybug or newer recommended)
--   JDK 17
--   Android SDK (Targeting API 36)
+- Android Studio (Ladybug or newer)
+- JDK 17+
+- Android SDK (API 36)
 
 ### Installation
-1.  **Clone the repository**:
-    ```bash
-    git clone https://github.com/yourusername/CPBuddy.git
-    ```
-2.  **Open in Android Studio**:
-    -   Select "Open" and navigate to the project folder.
-3.  **Sync Gradle**:
-    -   Android Studio will automatically prompt a Gradle sync. Ensure you have an active internet connection.
-4.  **Run the app**:
-    -   Connect an Android device or start an emulator and click the "Run" button.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/yourusername/CPBuddy.git
+   ```
+2. **Open & Sync**: Open the project in Android Studio and let Gradle sync.
+3. **Run**: Connect your device and hit **Run**!
 
-## 🎨 Design Philosophy: Glassmorphism
+---
 
-CPBuddy uses a custom-built `GlassBox` component to achieve its signature look. This is achieved by:
-1.  Using semi-transparent surface colors.
-2.  Applying thin, high-contrast borders for depth.
-3.  Layering these elements over an `ImmersiveBackground` that provides a vibrant, blurred backdrop.
+## 📈 Roadmap
+- [ ] **Push Notifications**: Never miss a contest registration deadline.
+- [ ] **Calendar Sync**: Add contests directly to your Google Calendar.
+- [ ] **Expanded Support**: Add LeetCode and CodeChef profile analytics.
+- [ ] **Offline Mode**: Cache data with Room for viewing on the go.
 
-## 📈 Future Roadmap
--   [ ] **Push Notifications**: Get reminded 15 minutes before a contest starts.
--   [ ] **Contest Reminders**: Add contests directly to your Google Calendar.
--   [ ] **Multi-Platform Support**: Add profiles for LeetCode and CodeChef.
--   [ ] **Offline Mode**: Cache contest data using Room for offline viewing.
+---
 
 ## 🤝 Contributing
-Contributions are welcome! Feel free to open an issue or submit a pull request.
+
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -88,9 +152,17 @@ Contributions are welcome! Feel free to open an issue or submit a pull request.
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 🙏 Credits
-
-This app fetches its contest and user data from the excellent [CompeteAPI](https://github.com/ravibabuvadde/competeapi) by [ravibabuvadde](https://github.com/ravibabuvadde).
-
 ---
-*Developed with ❤️ for the CP Community.*
+
+## 🙏 Acknowledgments
+
+We stand on the shoulders of giants:
+- **[CompeteAPI](https://github.com/ravibabuvadde/competeapi)** for the amazing contest data provider.
+- **[ravibabuvadde](https://github.com/ravibabuvadde)** for his work on competitive programming APIs.
+- The **Material Design** team for the M3 spec.
+
+<div align="center">
+  <p><b>If CPBuddy helped you win your next contest, please consider giving us a ⭐</b></p>
+  <br />
+  <img src="app/src/main/res/drawable/logo.png" width="80" alt="CPBuddy Footer">
+</div>
